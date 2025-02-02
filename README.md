@@ -16,13 +16,16 @@ Our goal is to **eliminate reliance on CEXs** and provide a **trust-minimized, d
 ## **How it works**  
 
 1️⃣ **Send BTC via Lightning Network (LN)**  
-- Users generate a **Lightning invoice** and send BTC.  
+Users generate a **Lightning invoice** and send BTC.  
+
 2️⃣ **Bridge processes the swap**  
-- The bridge detects the payment and **initiates an XRPL transaction**.  
+The bridge detects the payment and **initiates an XRPL transaction**.  
+
 3️⃣ **Receive XRP in your wallet**  
-- Once confirmed, the bridge **automatically delivers XRP** to your provided address.  
+Once confirmed, the bridge **automatically delivers XRP** to your provided address.  
+
 4️⃣ **Swap XRP to BTC**  
-- Users can send **XRP to the bridge** and receive **BTC via Lightning** instantly.  
+Users can send **XRP to the bridge** and receive **BTC via Lightning** instantly.  
 
 **✅ Fully automated, fast, and low-cost.**  
 
