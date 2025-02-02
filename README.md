@@ -58,7 +58,7 @@ node server.js
 npm run dev
 ```
 
-🚀 **Now open \`http://localhost:3000\` to use the bridge.**  
+🚀 **Now open `http://localhost:3000` to use the bridge.**  
 
 ---
 
