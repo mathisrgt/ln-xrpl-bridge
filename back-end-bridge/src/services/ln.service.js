@@ -1,6 +1,5 @@
-const { auth, createInvoice, getInvoice } = require('ln-service')
+const { auth, createInvoice, getInvoice, pay } = require('ln-service')
 const { Buffer } = require('buffer')
-
 const { socket, macaroonBase64, tlsCertBase64 } = require('../../environment/lightning')
 
 const { lnd } = auth({
@@ -29,4 +28,21 @@ async function checkLnInvoice(invoiceId) {
     return { success: true, isConfirmed: is_confirmed, isCanceled: is_canceled }
 }
 
-module.exports = { createLnInvoice, checkLnInvoice }
+async function payLnInvoice(invoice) {
+    try {
+        const payment = await pay({
+            lnd,
+            request: invoice
+        })
+
+        return {
+            success: true,
+            payment
+        }
+    } catch (error) {
+        console.error('Lightning payment error:', error)
+        return { success: false, error: error.message }
+    }
+}
+
+module.exports = { createLnInvoice, checkLnInvoice, payLnInvoice }

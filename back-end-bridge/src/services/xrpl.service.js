@@ -23,4 +23,27 @@ async function sendXrplPayment(destination, amountDrops) {
     return { success: true, result: submitResult.result }
 }
 
-module.exports = { sendXrplPayment }
+async function checkXrplTransaction(transactionId) {
+    const client = new xrpl.Client('wss://s.altnet.rippletest.net:51233')
+    await client.connect()
+
+    try {
+        const txResponse = await client.request({
+            command: 'tx',
+            transaction: transactionId
+        })
+
+        await client.disconnect()
+
+        if (txResponse.result && txResponse.result.validated) {
+            return true
+        } else {
+            return false
+        }
+    } catch (error) {
+        console.error('XRPL transaction check error:', error)
+        return false
+    }
+}
+
+module.exports = { sendXrplPayment, checkXrplTransaction }
