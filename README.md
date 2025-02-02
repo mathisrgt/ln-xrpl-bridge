@@ -38,25 +38,25 @@ Our goal is to **eliminate reliance on CEXs** and provide a **trust-minimized, d
 
 ## 🛠️ **Setup & Run**
 ### **1️⃣ Clone the repo**
-\`\`\`sh
-git clone https://github.com/your-repo/ln-xrpl-bridge.git
+```sh
+git clone https://github.com/mathisrgt/ln-xrpl-bridge.git
 cd ln-xrpl-bridge
-\`\`\`
+```
 
 ### **2️⃣ Install dependencies**
-\`\`\`sh
+```sh
 npm install
-\`\`\`
+```
 
 ### **3️⃣ Start the back-end**
-\`\`\`sh
+```sh
 node server.js
-\`\`\`
+```
 
 ### **4️⃣ Start the front-end**
-\`\`\`sh
+```sh
 npm run dev
-\`\`\`
+```
 
 🚀 **Now open \`http://localhost:3000\` to use the bridge.**  
 
