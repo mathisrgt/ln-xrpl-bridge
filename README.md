@@ -13,7 +13,8 @@ Our goal is to **eliminate reliance on CEXs** and provide a **trust-minimized, d
 
 ---
 
-## 🔥 **How it works**  
+## **How it works**  
+
 1️⃣ **Send BTC via Lightning Network (LN)**  
    - Users generate a **Lightning invoice** and send BTC.  
 2️⃣ **Bridge processes the swap**  
