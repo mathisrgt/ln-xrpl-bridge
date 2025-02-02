@@ -1,7 +1,6 @@
 <template>
   <UContainer class="min-h-screen flex items-center justify-center">
     <UCard class="p-6 max-w-xl mx-auto">
-      
       <div class="flex items-center justify-center gap-2 mb-4">
         <img src="/public/ln.svg" class="h-5 w-5 mt-0.5" />
         <h1 class="text-2xl font-bold text-center text-purple-600">
@@ -28,32 +27,33 @@
           </UButtonGroup>
         </div>
 
-        <UInput
-          v-model="amount"
-          placeholder="Enter amount"
-          type="number"
-          class="mb-4"
-        />
+        <UInput v-model="amount" placeholder="Enter amount" type="number" class="mb-4" />
 
         <div class="flex justify-between items-center mb-2">
           <label class="text-sm font-medium text-gray-300">To</label>
           <UButtonGroup class="opacity-50 pointer-events-none">
             <UButton color="violet">
-              <img :src="swapTo === 'btc' ? '/btc.svg' : '/xrp.svg' " class="h-5 w-5 mr-2" /> {{ swapTo.toUpperCase() }}
+              <img :src="swapTo === 'btc' ? '/btc.svg' : '/xrp.svg'" class="h-5 w-5 mr-2" />
+              {{ swapTo.toUpperCase() }}
             </UButton>
           </UButtonGroup>
         </div>
 
-        <UInput
-          :placeholder="computedToAmount"
-          type="number"
-          class="mb-4"
-          disabled
-        />
+        <UInput :placeholder="computedToAmount" type="number" class="mb-4" disabled />
 
-        <div class="flex justify-center">
-          <UButton class="mt-6 w-full bg-purple-600 hover:bg-purple-700" @click="swap" :loading="loading" size="lg">
-            Swap
+        <!-- Deposit Info -->
+        <div v-if="depositAddress" class="mt-4 p-3 bg-gray-900 rounded text-white">
+          <p class="text-sm font-medium">Deposit Address:</p>
+          <p class="text-xs break-all">{{ depositAddress }}</p>
+          <UButton class="mt-2 w-full bg-purple-600 hover:bg-purple-700" @click="checkPaymentStatus">
+            Check payment status
+          </UButton>
+        </div>
+
+        <!-- Swap Button -->
+        <div class="flex justify-center" v-if="!depositAddress">
+          <UButton class="mt-6 w-full bg-purple-600 hover:bg-purple-700" @click="startSwap" :loading="loading" size="lg">
+            Start
           </UButton>
         </div>
 
@@ -81,6 +81,8 @@ const amount = ref('')
 const loading = ref(false)
 const swapResult = ref(null)
 const conversionRate = ref(null)
+const depositAddress = ref(null)
+const paymentStatus = ref(null)
 
 const computedToAmount = computed(() => {
   return amount.value && conversionRate.value
@@ -110,18 +112,12 @@ async function fetchPrice() {
 watch(swapFrom, fetchPrice)
 onMounted(fetchPrice)
 
-async function swap() {
-  swapResult.value = null
+async function startSwap() {
   loading.value = true
+  depositAddress.value = null
 
   try {
-    if (!amount.value || amount.value <= 0) {
-      alert('Please enter a valid amount')
-      return
-    }
-
     let response
-
     if (swapFrom.value === 'btc') {
       response = await fetch('/api/ln-create-invoice', {
         method: 'POST',
@@ -129,21 +125,48 @@ async function swap() {
         body: JSON.stringify({ amount: amount.value, memo: 'XRPL Swap' })
       })
     } else {
-      response = await fetch('/api/xrpl/pay-ln', {
+      response = await fetch('/api/xrpl/get-deposit-address', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ amountDrops: amount.value * 1000 })
+        body: JSON.stringify({})
       })
     }
 
     if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`)
-
+    
     const data = await response.json()
-    swapResult.value = data.success
-      ? 'Swap Successful ✅'
-      : `Swap Failed ❌: ${data.error}`
+    depositAddress.value = data.address || data.request 
   } catch (err) {
     console.error('Swap error:', err)
+    swapResult.value = `Error: ${err.message}`
+  } finally {
+    loading.value = false
+  }
+}
+
+async function checkPaymentStatus() {
+  loading.value = true
+
+  try {
+    const response = await fetch('/api/check-payment', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ address: depositAddress.value })
+    })
+
+    if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`)
+
+    const data = await response.json()
+    paymentStatus.value = data.status
+
+    if (data.success) {
+      swapResult.value = 'Swap Completed Successfully ✅'
+      depositAddress.value = null
+    } else {
+      swapResult.value = `Waiting for payment confirmation...`
+    }
+  } catch (err) {
+    console.error('Payment check error:', err)
     swapResult.value = `Error: ${err.message}`
   } finally {
     loading.value = false
