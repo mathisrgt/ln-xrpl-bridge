@@ -1,4 +1,4 @@
-<img width="542" alt="image" src="https://github.com/user-attachments/assets/b1af3d86-4792-4883-8af2-b8b6ff1c5a19" /># ⚡ Lightning Network ↔ XRPL Bridge  
+# ⚡ Lightning Network ↔ XRPL Bridge  
 
 <img width="542" alt="image" src="https://github.com/user-attachments/assets/1725dec9-769a-4649-8f32-d92ccaf3522b" />
 
