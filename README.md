@@ -27,7 +27,7 @@ Once confirmed, the bridge **automatically delivers XRP** to your provided addre
 4️⃣ **Swap XRP to BTC**  
 Users can send **XRP to the bridge** and receive **BTC via Lightning** instantly.  
 
-** 🚀 Fully automated, fast, and low-cost.**  
+**🚀 Fully automated, fast, and low-cost.**  
 
 ---
 
