@@ -1,6 +1,14 @@
 const xrpl = require('xrpl')
 const { seed } = require('../../environment/xrpl')
 
+async function getXrplDepositAddress() {
+    const client = new xrpl.Client('wss://s.altnet.rippletest.net:51233')
+    await client.connect()
+    const wallet = xrpl.Wallet.fromSeed(seed)
+    await client.disconnect()
+    return wallet.classicAddress
+}
+
 async function sendXrplPayment(destination, amountDrops) {
     const client = new xrpl.Client('wss://s.altnet.rippletest.net:51233')
     await client.connect()
@@ -46,4 +54,32 @@ async function checkXrplTransaction(transactionId) {
     }
 }
 
-module.exports = { sendXrplPayment, checkXrplTransaction }
+async function payXrplInvoice(destination, amountDrops) {
+    const client = new xrpl.Client('wss://s.altnet.rippletest.net:51233')
+    await client.connect()
+
+    try {
+        const wallet = xrpl.Wallet.fromSeed(seed)
+
+        const paymentTx = {
+            TransactionType: 'Payment',
+            Account: wallet.classicAddress,
+            Amount: amountDrops.toString(),
+            Destination: destination
+        }
+
+        const prepared = await client.autofill(paymentTx)
+        const signed = wallet.sign(prepared)
+        const submitResult = await client.submitAndWait(signed.tx_blob)
+
+        await client.disconnect()
+
+        return { success: true, result: submitResult.result }
+    } catch (error) {
+        console.error('XRP payment error:', error)
+        await client.disconnect()
+        return { success: false, error: error.message }
+    }
+}
+
+module.exports = { sendXrplPayment, checkXrplTransaction, payXrplInvoice, getXrplDepositAddress }

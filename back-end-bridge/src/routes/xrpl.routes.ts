@@ -1,32 +1,30 @@
 const express = require('express')
-const { sendXrplPayment, checkXrplTransaction } = require('../services/xrpl.service')
+const { getXrplDepositAddress, sendXrplPayment, checkXrplTransaction } = require('../services/xrpl.service')
 const { payLnInvoice } = require('../services/ln.service')
 
 const router = express.Router()
 
-router.post('/transfer', async (req, res) => {
-    const { destination, amountDrops } = req.body
+router.post('/get-deposit-address', async (req, res) => {
     try {
-        const result = await sendXrplPayment(destination, amountDrops)
-        res.json(result)
+        const address = await getXrplDepositAddress()
+        res.json({ address })
     } catch (error) {
         res.status(500).json({ error: error.message })
     }
 })
 
-router.post('/pay-ln', async (req, res) => {
-    const { invoice, transactionId } = req.body
-
+router.post('/check-xrpl-payment', async (req, res) => {
+    const { transactionId, lnInvoice } = req.body
     try {
-        // Verify
         const xrplPaymentConfirmed = await checkXrplTransaction(transactionId)
+
         if (!xrplPaymentConfirmed) {
-            return res.status(400).json({ error: 'XRPL transaction not confirmed' })
+            return res.json({ success: false, message: 'XRP payment not confirmed yet' })
         }
 
-        // If XRP received, pay LN invoice
-        const lnPaymentResult = await payLnInvoice(invoice)
-        res.json(lnPaymentResult)
+        const lnPaymentResult = await payLnInvoice(lnInvoice)
+
+        return res.json({ success: lnPaymentResult.success, lnPaymentResult })
     } catch (error) {
         res.status(500).json({ error: error.message })
     }
