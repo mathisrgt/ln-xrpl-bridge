@@ -1,0 +1,61 @@
+# Nuxt dev/build outputs
+.output
+.data
+.nuxt
+.nitro
+.cache
+dist
+
+# Express.js build outputs
+/build
+/dist
+/tmp
+/pids
+/sockets
+
+# Node dependencies
+node_modules
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Local env files
+.env
+.env.*
+!.env.example
+
+# Misc system files
+.DS_Store
+.fleet
+.idea
+.vscode/
+*.swp
+*.swo
+
+# Temporary files
+*.bak
+*.tmp
+*.seed
+*.pid
+*.seed
+*.log.*
+
+# Process ID & Lock Files
+.pnpm-store
+.lock-wscript
+*.lock
+
+# Coverage & Debug
+coverage/
+.nyc_output/
+*.lcov
+.DS_Store
+
+# MacOS/Linux specific
+Thumbs.db
+*.swp
