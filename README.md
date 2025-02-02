@@ -74,6 +74,11 @@ npm run dev
 We believe in **true decentralization**, and this project is our step toward a **better BTC-XRP ecosystem**.  
 
 ---
+## 🏗️ **Improvements**
+
+To do: we verify that a transaction has been received, but not the exact amount.
+
+---
 
 ## 🤝 **Contributions & Support**
 We welcome contributions! Feel free to:  
