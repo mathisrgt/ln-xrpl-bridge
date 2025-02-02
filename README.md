@@ -1,4 +1,4 @@
-# ⚡ Lightning Network ↔ XRPL Bridge  
+<img width="542" alt="image" src="https://github.com/user-attachments/assets/b1af3d86-4792-4883-8af2-b8b6ff1c5a19" /># ⚡ Lightning Network ↔ XRPL Bridge  
 
 <img width="542" alt="image" src="https://github.com/user-attachments/assets/1725dec9-769a-4649-8f32-d92ccaf3522b" />
 
@@ -9,7 +9,7 @@ To solve this, we created **a simple and efficient bridge** that allows users to
 ✔ **Lightning Network** for fast, low-fee BTC transactions.  
 ✔ **XRPL (XRP Ledger)** for seamless XRP settlements.  
 
-Our goal is to **eliminate reliance on CEXs** and provide a **trust-minimized, decentralized, and efficient** way to move between **Bitcoin and XRP** networks. 🚀  
+Our goal is to **eliminate reliance on CEXs** and provide a **trust-minimized, decentralized, and efficient** way to move between **Bitcoin and XRP** networks.  
 
 ---
 
@@ -27,7 +27,7 @@ Once confirmed, the bridge **automatically delivers XRP** to your provided addre
 4️⃣ **Swap XRP to BTC**  
 Users can send **XRP to the bridge** and receive **BTC via Lightning** instantly.  
 
-**✅ Fully automated, fast, and low-cost.**  
+** 🚀 Fully automated, fast, and low-cost.**  
 
 ---
 
